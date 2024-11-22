@@ -2,9 +2,7 @@
 Canvas JS Final Project
 
 
-# this is a test
-
-[Character] Running Game:
+# [Character] Running Game:
 
 Key Focus Ideas: 
 -Score
