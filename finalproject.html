@@ -5,31 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>[ ]Running Game</title>
     <link rel="stylesheet" href="finalproject.css">
+    <script src="finalproject.js" defer></script>
 </head>
 
 <body>
     <div id="game-container">
 
-        <h1> [] Running Game </h1>
+        <br><h1> [] Running Game </h1></br>
+
+        <div id="score-container">
+            <br><p> Score: <span id="score">0</span></p></br>
+        </div>
+
+        <div id="game">
+            <br></br>
+            <canvas id="gameCanvas" width="900" height="300" style="border: 1px solid black"></canvas>
+        </div>
+
+        <div id="startStop">
+            <br> <input type="button" value="Start" onclick="drawScene()"> </br>
+            <br> <input type="button" value="Stop" onclick="stopMovement()"> </br>
+        </div>
 
         <div id="instructions">
             <p> Use the UP arrow or SPACE bar to Jump.</p>
-            <p> Use the DOWN arrou to Duck.</p>
-        </div>
-
-        <div id="score-container">
-            <p> Score: <span id="score">0</span></p>
-        </div>
-
-        <div id="game-area">
-            <div id="character"></div>
-            <div id="obstacles"></div>
+            <p> Use the DOWN arrow to Duck.</p>
         </div>
 
     </div>
-
-
-
-    <script src="finalproject.js"></script>
+    
 </body>
 </html>
