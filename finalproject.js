@@ -14,12 +14,8 @@ const height = 300;
 const width = 900;
 const runningCanvas = document.getElementById("gameCanvas");
 const ctx = runningCanvas.getContext("2d");
-const startButton = document.querySelector('input[value="Start"]');
-const stopButton = document.querySelector('input[value="Stop"]');
-
-// Update start/stop buttons
-startButton.value = "Start Game";
-stopButton.value = "Pause Game";
+let startButton = document.querySelector('input[value="Start Game"]');
+let stopButton = document.querySelector('input[value="Stop Game"]');
 
 // Character and obstacle properties
 const character = {
@@ -91,7 +87,8 @@ function moveObstacle() { // move obstacle square (same method from snowman lab)
     drawObstacle();
 }
 
-function drawScene() { // draw everything, move everything; for start onclick event
+// Start game
+function drawScene() { 
     if (!gameStarted) {
         gameStarted = true;
         startButton.value = "Restart Game";
@@ -157,12 +154,14 @@ function duck() {
     }
 }
 
-function obstacleTimer() { // timer for moving obstacle
+ // Timer for moving obstacle
+function obstacleTimer() {
     xPosition = 0; // x coordinate for obstacle
     timer = setInterval("moveObstacle()", 25);
 }
 
-function stopMovement() { // stop obstacle movement timer
+// Stop obstacle movement timer
+function stopMovement() {
     clearInterval(timer);
     gameStarted = false;
 }

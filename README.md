@@ -71,3 +71,7 @@ Button and UI Interactions:
 - Added game state management
 - Implemented alert for game over scenario
 - Created dynamic button text changes to look more beautiful
+
+ava's edits @ monday 12pm
+- fixed bug where start button won't start
+    - changed js start/stopButton variable input values to "Start Game" and "Stop Game" from "Start" and "Stop"
