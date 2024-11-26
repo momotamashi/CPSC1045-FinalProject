@@ -78,3 +78,6 @@ ava's edits @ monday 12pm
 
 ava's edits @ monday 12:50 pm
 - to JS: added intervalSpeed variable and clearInterval(timer) to "restart game" function @ line 107
+
+ava @ monday 1:40pm
+- lives reset on game over

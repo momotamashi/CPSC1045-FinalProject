@@ -84,6 +84,14 @@ function moveObstacle() {
             gameOver = true;
             stopMovement();
             alert("Game Over! Your score: " + score);
+            startButton.value = "Start Game";
+            score = 0;
+            lives = 3;
+            scoreDisplay.textContent = score;
+            obstacle.x = width;
+            ctx.clearRect(0, 0, width, height);
+            drawBackground();
+            drawCharacter();
         }
     }
 
@@ -101,7 +109,6 @@ function drawScene() {
         // Restart game
         score = 0;
         lives = 3;
-        gameOver = false;
         scoreDisplay.textContent = score;
         obstacle.x = width;
         clearInterval(timer);
