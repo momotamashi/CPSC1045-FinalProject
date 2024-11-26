@@ -157,22 +157,6 @@ function duck() {
     }
 }
 
-function drawScene() {
-    if (!gameStarted) {
-        gameStarted = true;
-        startButton.value = "Restart Game";
-        obstacleTimer();
-    } else {
-        // Restart game
-        score = 0;
-        lives = 3;
-        gameOver = false;
-        scoreDisplay.textContent = score;
-        obstacle.x = width;
-        obstacleTimer();
-    }
-}
-
 function obstacleTimer() { // timer for moving obstacle
     xPosition = 0; // x coordinate for obstacle
     timer = setInterval("moveObstacle()", 25);
