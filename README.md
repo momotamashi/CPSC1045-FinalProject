@@ -75,3 +75,6 @@ Button and UI Interactions:
 ava's edits @ monday 12pm
 - fixed bug where start button won't start
     - changed js start/stopButton variable input values to "Start Game" and "Stop Game" from "Start" and "Stop"
+
+ava's edits @ monday 12:50 pm
+- to JS: added intervalSpeed variable and clearInterval(timer) to "restart game" function @ line 107

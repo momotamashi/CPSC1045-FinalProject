@@ -7,6 +7,7 @@ let gameStarted = false;
 let gameOver = false;
 let xPosition = 0;
 let timer;
+let intervalSpeed = 25;
 
 // Get DOM elements
 let scoreDisplay = document.getElementById('score');
@@ -34,18 +35,20 @@ const obstacle = {
     color: "red"
 };
 
-
-function drawBackground() { // blue background
+// blue background
+function drawBackground() { 
     ctx.fillStyle = "#87CEEB";
     ctx.fillRect(0, 0, width, height);
 }
 
-function drawCharacter() { // character: green square
+// character: green square
+function drawCharacter() { 
     ctx.fillStyle = character.color;
     ctx.fillRect(character.x, character.y, character.width, character.height);
 }
 
-function drawObstacle() { // obstacle: red square
+// obstacle: red square
+function drawObstacle() { 
     ctx.fillStyle = obstacle.color;
     ctx.fillRect(obstacle.x, obstacle.width, obstacle.width, obstacle.height);
 }
@@ -56,7 +59,8 @@ function drawLives() {
     ctx.fillText(`Lives: ${lives}`, 10, 30);
 }
 
-function moveObstacle() { // move obstacle square (same method from snowman lab)
+// move obstacle square (same method from snowman lab)
+function moveObstacle() {
     ctx.clearRect(0, 0, width, height);
     drawBackground();
     drawCharacter();
@@ -100,6 +104,7 @@ function drawScene() {
         gameOver = false;
         scoreDisplay.textContent = score;
         obstacle.x = width;
+        clearInterval(timer);
         obstacleTimer();
     }
 }
@@ -156,8 +161,9 @@ function duck() {
 
  // Timer for moving obstacle
 function obstacleTimer() {
-    xPosition = 0; // x coordinate for obstacle
-    timer = setInterval("moveObstacle()", 25);
+    // x coordinate for obstacle
+    xPosition = 0;
+    timer = setInterval("moveObstacle()", intervalSpeed);
 }
 
 // Stop obstacle movement timer
