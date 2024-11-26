@@ -1,6 +1,6 @@
 // Variables for the game state
 let score = 0;
-let lives = 3;
+let lives = 1;
 let isJumping = false;
 let isDucking = false;
 let gameStarted = false;
