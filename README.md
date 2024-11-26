@@ -26,3 +26,48 @@ Ava's edits @ sunday 11:10 pm
 
 - added Start/Stop buttons for obstacle movement at the moment, right now the obstacle can move across the page but i don't have it regenerating again + if you click SPACE or Start
 button again, the timer speeds up
+
+
+
+
+@momotamashi @tuesday 3:54 am
+- STYLE IN CSS:
+- Made the game look like it's floating in the middle of the screen
+- Added some nice shadows and rounded corners to make it look less boring
+- Made buttons that actually look clickable with a cool hover effect
+- Used flexbox to make everything line up perfectly
+- Picked some nice colors that are easy on the eyes (subject to change)
+- Made sure it looks good on different screen sizes (can check it on ipad, phone, tablets, etc)
+- Added some polish so it doesn't look like a basic student project
+
+
+- HTML CHANGES:
+- Cleaned up indentation and structure
+- Made sure the layout looks cleaner and more organized
+- Added a proper title so it looks more professional
+- Made sure the script and stylesheet are linked correctly
+- Basically just made everything look a bit more tidy and modern
+
+
+- JS CHANGES:
+Core Game Mechanics:
+- Added a lives system (you start with 3 lives now)
+- Created a proper "game over" state
+- Made the jumping and ducking way more smooth
+- Improved how the game detects when you hit an obstacle
+- Made the score actually meaningful - you get points for dodging obstacles
+- Added keyboard controls so you can play more naturally
+- Created a way to restart the game
+
+User Experience Improvements:
+- Added keyboard event listeners for controls
+- You can actually lose and restart
+- Jumping and ducking feel more natural
+- Added lives display on canvas
+- Created smooth jump and duck animations
+
+Button and UI Interactions:
+- Modified start/stop button behavior
+- Added game state management
+- Implemented alert for game over scenario
+- Created dynamic button text changes to look more beautiful
