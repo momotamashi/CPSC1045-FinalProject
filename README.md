@@ -81,3 +81,9 @@ ava's edits @ monday 12:50 pm
 
 ava @ monday 1:40pm
 - lives reset on game over
+
+allison @ friday 3:22am
+- fixed obstacle collision error
+- changed positioning of red obstacle
+- changed jump height of character (mc) to be higher
+- fixed space bar restart error

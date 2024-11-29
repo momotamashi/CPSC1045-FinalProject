@@ -28,8 +28,8 @@ const character = {
 };
 
 const obstacle = {
-    x: 850,
-    y: 250,
+    x: width, // starts obstacle coming in from right
+    y: 150, //fixes bug where obstacle collides before touching green square
     width: 50,
     height: 50,
     color: "red"
@@ -50,7 +50,7 @@ function drawCharacter() {
 // obstacle: red square
 function drawObstacle() { 
     ctx.fillStyle = obstacle.color;
-    ctx.fillRect(obstacle.x, obstacle.width, obstacle.width, obstacle.height);
+    ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
 }
 
 function drawLives() {
@@ -71,9 +71,11 @@ function moveObstacle() {
     // Reset obstacle and increase score when it passes
     if (obstacle.x < -50) {
         obstacle.x = width;
-        score += 10;
-        scoreDisplay.textContent = score;
+        score += 10; //increases score
+        scoreDisplay.textContent = score; //updates score
     }
+
+    console.log(`Character (x: ${character.x}, y: ${character.y}), Obstacle (x: ${obstacle.x}, y: ${obstacle.y})`);
 
     // Check for collision
     if (checkCollision()) {
@@ -117,27 +119,64 @@ function drawScene() {
 }
 
 function checkCollision() {
+    const horizontalCollision = obstacle.x < character.x + character.width && obstacle.x + obstacle.width > character.x;
+    
+    const verticalCollision = obstacle.y + obstacle.height > character.y && obstacle.y < character.y + character.height;
+
+    return horizontalCollision && verticalCollision;
+     /* OLD CHECKCOLLISION
     return (
         obstacle.x < character.x + character.width &&
         obstacle.x + obstacle.width > character.x &&
         obstacle.y < character.y + character.height &&
         obstacle.y + obstacle.height > character.y
     );
+    */
 }
+
+let jumpHeight = 10;
 
 function jump() {
     if (!isJumping) {
         isJumping = true;
-        let jumpCount = 0;
-        
+        jumpHeight = 15;
+        let jumpSpeed = 15;
+        let gravity = 3;
+        let maxHeight = 200;
+
+        performJump(jumpSpeed, gravity, maxHeight);
+    }
+
+    function performJump(jumpSpeed, gravity, maxHeight) {
+        let jumpInterval = setInterval(() => {
+            if (jumpHeight < maxHeight) {
+                character.y -= jumpSpeed;
+                jumpHeight += jumpSpeed;
+            }
+            else {
+                character.y += gravity;
+            }
+
+            if (character.y >= 250) {
+                clearInterval(jumpInterval);
+                isJumping = false;
+                character.y = 250;
+            }
+        }, 20);
+    }
+}
+        /*Old performJump() function
         function performJump() {
             if (jumpCount < 15) {
-                character.y -= 10;
+                character.y -= jumpSpeed;
                 jumpCount++;
-            } else if (jumpCount < 30) {
-                character.y += 10;
-                jumpCount++;
-            } else {
+            } 
+            else if (jumpCount < 30) {
+                old else if (jumpcount > 30)
+                character.y += fallSpeed;
+                jumpCount++; 
+            } 
+            else {
                 isJumping = false;
                 character.y = 250;
                 return;
@@ -149,8 +188,7 @@ function jump() {
         }
         
         performJump();
-    }
-}
+        */
 
 function duck() {
     if (!isDucking) {
