@@ -181,14 +181,17 @@ function stopMovement() {
 
 // Keyboard controls
 document.addEventListener('keydown', (event) => {
+    
     if (!gameStarted || gameOver) return;
 
     switch(event.key) {
-        case 'ArrowUp':
+        case 'ArrowUp': // Jump
         case ' ':
+            event.preventDefault();
             jump();
             break;
-        case 'ArrowDown':
+        case 'ArrowDown': //Duck
+            event.preventDefault();
             duck();
             break;
     }
