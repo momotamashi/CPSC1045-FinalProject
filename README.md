@@ -87,3 +87,4 @@ allison @ friday 3:22am
 - changed positioning of red obstacle
 - changed jump height of character (mc) to be higher
 - fixed space bar restart error
+- changed obstacle positioning to middle of screen
