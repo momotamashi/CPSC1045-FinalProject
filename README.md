@@ -88,3 +88,6 @@ allison @ friday 3:22am
 - changed jump height of character (mc) to be higher
 - fixed space bar restart error
 - changed obstacle positioning to middle of screen
+
+ava @ tuesday 12:55
+- patched controls on gameOver
