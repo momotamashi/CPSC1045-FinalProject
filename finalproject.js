@@ -94,6 +94,7 @@ function moveObstacle() {
             ctx.clearRect(0, 0, width, height);
             drawBackground();
             drawCharacter();
+            gameOver = false;
         }
     }
 
@@ -228,7 +229,7 @@ document.addEventListener('keydown', (event) => {
             event.preventDefault();
             jump();
             break;
-        case 'ArrowDown': //Duck
+        case 'ArrowDown': // Duck
             event.preventDefault();
             duck();
             break;
