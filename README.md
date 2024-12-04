@@ -108,3 +108,9 @@ ava @ wednesday 6:33am
 - debugged errors; moved lines 12-22 to 1-11 to allow lives: GAME_CONFIg.lives to properly grab GAME_CONFIG value
 - commeneted out render pixel font lines (172 - 174), added two variables just to get score and lives updating live with game (176 - 179). i'm not sure what the createPixelFont() function was supposed to be so i improvosed. pls feel free to change if needed
 - added gameState.gameOver = false to gameOver() function to allow restart without reloading page, and gameState.gameStarted = false to gameOver() function to bypass having to press pause game button and then start game button to initialize the game starting
+
+ava @ wednesday 7:53am
+- changed max jup height from 100 to 150 (line 57)
+- changed this.jumpheight from 10 to 12, not exactly sure what it does on a technical level but the jump animation feels smoother consecutively. feel free to change back if this needs to stay 10 (line 89)
+- changed math.random values from 0.95 to 0.98 and 0.05 to 0.35
+    - 0.35 spawn favours ground over flying, can change back to 0.50 if desired, i was just mainly testing and found the spawn rate to be okay

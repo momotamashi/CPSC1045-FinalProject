@@ -54,7 +54,7 @@ function Character() {
     this.width = 50;
     this.height = 50;
     this.jumpHeight = 0;
-    this.maxJumpHeight = 100;
+    this.maxJumpHeight = 150;
 
     this.draw = function() {
         ctx.fillStyle = 'green';
@@ -86,7 +86,7 @@ function Character() {
         if (gameState.isJumping) {
             if (this.jumpHeight < this.maxJumpHeight) {
                 this.y -= 10;
-                this.jumpHeight += 10;
+                this.jumpHeight += 12;
             } else {
                 this.y += 10;
                 
@@ -192,8 +192,8 @@ function updateGame() {
     });
 
     // spawn new obstacles
-    if (Math.random() > 0.95) {
-        var type = Math.random() > 0.5 ? 'ground' : 'flying';
+    if (Math.random() > 0.98) {
+        var type = Math.random() > 0.35 ? 'ground' : 'flying';
         gameState.obstacles.push(new Obstacle(type));
         gameState.score += 10;
     }
