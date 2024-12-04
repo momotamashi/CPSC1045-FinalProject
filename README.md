@@ -91,3 +91,15 @@ allison @ friday 3:22am
 
 ava @ tuesday 12:55
 - patched controls on gameOver
+
+momo @ wednesday 12:35am
+- improved the look with some fresh fonts in css/html
+- cleaned up constructors for Character and Obstacle, got rid of unnecessary functions outside and made everything more readable and easier to fix (if needed)
+- grouped some lone variables inside the renderGame() function
+- switched to setInterval for the game loop
+- added event listeners for game controls
+- tweaked collision detection, feels snappier now (let me know if it’s just me or if i’m being delusional ;-; )
+- moved jump and duck mechanics to an event listener and adjusted the boolean output using a switch with a default event
+- created two obstacles and used Math.random to make them come at you, hot and fast!
+- had to fix the startGame and pauseGame buttons, they weren’t letting me redraw the game each time i pressed them, causing a bunch of issues. should be good now
+- moved score and lives variables to the gameOver function instead of startGame and pauseGame for the same reason (button issue)

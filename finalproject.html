@@ -3,37 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[ ]Running Game</title>
+    <title>Endless Frog Runner</title>
     <link rel="stylesheet" href="finalproject.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <script src="finalproject.js" defer></script>
 </head>
-
 <body>
     <div id="game-container">
-
-        <br><h1> [] Running Game </h1></br>
-
+        <h1> Endless Frog Runner </h1>
+        
         <div id="score-container">
-            <br><p> Score: <span id="score">0</span></p></br>
+            <span>Score: <span id="score">0</span></span>
+            <span>Lives: <span id="lives">3</span></span>
         </div>
 
         <div id="game">
-            <br></br>
             <canvas id="gameCanvas" width="900" height="300"></canvas>
         </div>
 
         <div id="startStop">
-            <input type="button" value="Start Game" onclick="drawScene()">
-            <input type="button" value="Pause Game" onclick="stopMovement()">
+            <input type="button" value="▶️ Start Game" id="startBtn">
+            <input type="button" value="⏸️ Pause Game" id="pauseBtn">
         </div>
 
         <div id="instructions">
-            <p>🆙 Arrow Up / Space Bar: Jump</p>
+            <p>🔼 Arrow Up / Spacebar: Jump</p>
             <p>🔽 Arrow Down: Duck</p>
             <p>Avoid obstacles and survive as long as possible!</p>
         </div>
-
     </div>
-    
 </body>
 </html>
