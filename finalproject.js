@@ -151,7 +151,7 @@ function updateGame() {
     */
 
     // spawn new obstacles based on timer
-    if (obstacleTimer % 65 === 0) { // Every 150 frames
+    if (obstacleTimer % 55 === 0) { // measured in every 55 frames
         var type = Math.random() > 0.5 ? 'ground' : 'flying';
         gameState.obstacles.push(new Obstacle(type));
     }
