@@ -25,29 +25,7 @@ var gameState = {
 var canvas = document.getElementById('gameCanvas');
 var ctx = canvas.getContext('2d');
 
-
-/*
-// Get DOM elements
-let scoreDisplay = document.getElementById('score');
-const height = 300;
-const width = 900;
-const runningCanvas = document.getElementById("gameCanvas");
-const ctx = runningCanvas.getContext("2d");
-let startButton = document.querySelector('input[value="Start Game"]');
-let stopButton = document.querySelector('input[value="Stop Game"]');
-*/
-
-// Character and obstacle properties
-/*
-const character = {
-    x: 50,
-    y: 250,
-    width: 50,
-    height: 50,
-    color: "green"
-};
-*/
-
+// Character and Obstacle  constructor properties
 function Character() {
     this.x = GAME_CONFIG.characterStartX;
     this.y = GAME_CONFIG.characterStartY;
@@ -99,21 +77,12 @@ function Character() {
     };
 }
 
-/*
-const obstacle = {
-    x: width, // starts obstacle coming in from right
-    y: 150, //fixes bug where obstacle collides before touching green square
-    width: 50,
-    height: 50,
-    color: "red"
-};
-*/
 function Obstacle(type) {
     this.type = type;
     this.width = 50;
     this.height = 50;
     this.x = GAME_CONFIG.width;
-    this.y = type === 'ground' ? 250 : 200;
+    this.y = type === 'ground' ? 250 : 215;
     this.color = type === 'ground' ? 'red' : 'purple';
 
     this.draw = function() {
@@ -125,7 +94,198 @@ function Obstacle(type) {
         this.x -= GAME_CONFIG.obstacleSpeed;
     };
 }
+
+
+
+// main function game renderer
+function renderGame() {
+    // clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // background
+    ctx.fillStyle = '#87CEEB';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // draw character
+    character.draw();
+
+    // draw obstacles
+    gameState.obstacles.forEach(function(obstacle) {
+        obstacle.draw();
+    });
+
+    // renders score and lives directly inside of the game div, still experimental on how we want it
+    //ctx.font = '16px "Press Start 2P"';
+    //ctx.fillStyle = 'white';
+    //ctx.fillText('SCORE: ' + gameState.score, 10, 20);
+    //ctx.fillText('LIVES: ' + gameState.lives, canvas.width - 150, 20);
+
+    let scoreDisplay = document.getElementById('score');
+    let livesDisplay = document.getElementById('lives');
+    scoreDisplay.innerHTML = gameState.score;
+    livesDisplay.innerHTML = gameState.lives;
+}
+
+
+// game update logic, variable for function updateGame
+var obstacleTimer = 0;
+
+// function to game update main
+function updateGame() {
+    // update character
+    character.update();
+
+    // move and remove off-screen obstacles
+    gameState.obstacles = gameState.obstacles.filter(function(obstacle) {
+        obstacle.move();
+        return obstacle.x > -50;
+    });
+
+    /*
+    // spawn new obstacles
+    if (Math.random() > 0.98) {
+        var type = Math.random() > 0.35 ? 'ground' : 'flying';
+        gameState.obstacles.push(new Obstacle(type));
+        gameState.score += 10;
+    }
+    */
+
+    // spawn new obstacles based on timer
+    if (obstacleTimer % 65 === 0) { // Every 150 frames
+        var type = Math.random() > 0.5 ? 'ground' : 'flying';
+        gameState.obstacles.push(new Obstacle(type));
+    }
+    obstacleTimer++;
+
+    // Increment score
+    gameState.score += 1;
+
+    // Increase obstacle speed based on score
+    if (gameState.score % 100 === 0 && GAME_CONFIG.obstacleSpeed < 20) {
+        GAME_CONFIG.obstacleSpeed++;
+    }
+
+
+    // collision detection
+    gameState.obstacles.forEach(function(obstacle, index) {
+        var collision = 
+            obstacle.x < character.x + character.width &&
+            obstacle.x + obstacle.width > character.x &&
+            obstacle.y < character.y + character.height &&
+            obstacle.y + obstacle.height > character.y;
+
+        if (collision) {
+            gameState.lives--;
+            gameState.obstacles.splice(index, 1);
+
+            if (gameState.lives <= 0) {
+                gameOver();
+            }
+        }
+    });
+
+    renderGame();
+}
+
+// Game Over function
+function gameOver() {
+    gameState.gameOver = true;
+    clearInterval(gameState.timer);
+    alert('Game Over! Score: ' + gameState.score);
+    
+    // Reset game state
+    gameState.score = 0;
+    gameState.lives = GAME_CONFIG.lives;
+    gameState.obstacles = [];
+    gameState.gameOver = false;
+    gameState.gameStarted = false;
+}
+
+// Start Game Function
+function startGame() {
+    if (!gameState.gameStarted) {
+        gameState.gameStarted = true;
+        gameState.timer = setInterval(updateGame, 1000 / 60); // 60 FPS
+    }
+}
+
+// Pause Game Function
+function pauseGame() {
+    if (gameState.gameStarted && !gameState.gameOver) {
+        clearInterval(gameState.timer);
+        gameState.gameStarted = false;
+    }
+}
+
+// create game entities
+var character = new Character();
+
+// event listeners
+document.getElementById('startBtn').addEventListener('click', startGame);
+document.getElementById('pauseBtn').addEventListener('click', pauseGame);
+
+document.addEventListener('keydown', function (event) {
+    if (!gameState.gameStarted || gameState.gameOver) return;
+
+    switch (event.key) {
+        case 'ArrowUp':
+        case ' ':
+            event.preventDefault();
+            character.jump();
+            break;
+        case 'ArrowDown':
+            event.preventDefault();
+            character.duck();
+            break;
+    }
+});
+
+// initial setup
+renderGame();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//======================================================================
+// old code
 /*
+// Get DOM elements
+let scoreDisplay = document.getElementById('score');
+const height = 300;
+const width = 900;
+const runningCanvas = document.getElementById("gameCanvas");
+const ctx = runningCanvas.getContext("2d");
+let startButton = document.querySelector('input[value="Start Game"]');
+let stopButton = document.querySelector('input[value="Stop Game"]');
+
+const character = {
+    x: 50,
+    y: 250,
+    width: 50,
+    height: 50,
+    color: "green"
+};
+
+const obstacle = {
+    x: width, // starts obstacle coming in from right
+    y: 150, //fixes bug where obstacle collides before touching green square
+    width: 50,
+    height: 50,
+    color: "red"
+};
+
 // blue background
 function drawBackground() { 
     ctx.fillStyle = "#87CEEB";
@@ -149,78 +309,7 @@ function drawLives() {
     ctx.font = "20px Arial";
     ctx.fillText(`Lives: ${lives}`, 10, 30);
 }
-*/
 
-// main function game renderer
-function renderGame() {
-    // clear canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // background
-    ctx.fillStyle = '#87CEEB';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // draw character
-    character.draw();
-
-    // draw obstacles
-    gameState.obstacles.forEach(function(obstacle) {
-        obstacle.draw();
-    });
-
-    // render pixel font
-    // var pixelFont = createPixelFont(ctx);
-    // pixelFont.drawText('SCORE: ' + gameState.score, 10, 10);
-    // pixelFont.drawText('LIVES: ' + gameState.lives, canvas.width - 150, 10);
-
-    let scoreDisplay = document.getElementById('score');
-    let livesDisplay = document.getElementById('lives');
-    scoreDisplay.innerHTML = gameState.score;
-    livesDisplay.innerHTML = gameState.lives;
-}
-
-
-// function to game update main
-function updateGame() {
-    // update character
-    character.update();
-
-    // move and remove off-screen obstacles
-    gameState.obstacles = gameState.obstacles.filter(function(obstacle) {
-        obstacle.move();
-        return obstacle.x > -50;
-    });
-
-    // spawn new obstacles
-    if (Math.random() > 0.98) {
-        var type = Math.random() > 0.35 ? 'ground' : 'flying';
-        gameState.obstacles.push(new Obstacle(type));
-        gameState.score += 10;
-    }
-
-    // collision detection
-    gameState.obstacles.forEach(function(obstacle, index) {
-        var collision = 
-            obstacle.x < character.x + character.width &&
-            obstacle.x + obstacle.width > character.x &&
-            obstacle.y < character.y + character.height &&
-            obstacle.y + obstacle.height > character.y;
-
-        if (collision) {
-            gameState.lives--;
-            gameState.obstacles.splice(index, 1);
-
-            if (gameState.lives <= 0) {
-                gameOver();
-            }
-        }
-    });
-
-    renderGame();
-}
-
-
-/*
 // move obstacle square (same method from snowman lab)
 function moveObstacle() {
     ctx.clearRect(0, 0, width, height);
@@ -296,41 +385,7 @@ function checkCollision() {
     );
     
 }
-*/
-
-// Game Over function
-function gameOver() {
-    gameState.gameOver = true;
-    clearInterval(gameState.timer);
-    alert('Game Over! Score: ' + gameState.score);
     
-    // Reset game state
-    gameState.score = 0;
-    gameState.lives = GAME_CONFIG.lives;
-    gameState.obstacles = [];
-    gameState.gameOver = false;
-    gameState.gameStarted = false;
-}
-
-// Start Game Function
-function startGame() {
-    if (!gameState.gameStarted) {
-        gameState.gameStarted = true;
-        gameState.timer = setInterval(updateGame, 1000 / 60); // 60 FPS
-    }
-}
-
-// Pause Game Function
-function pauseGame() {
-    if (gameState.gameStarted && !gameState.gameOver) {
-        clearInterval(gameState.timer);
-        gameState.gameStarted = false;
-    }
-}
-
-
-
-/*
 let jumpHeight = 10;
 
 function jump() {
@@ -432,29 +487,3 @@ document.addEventListener('keydown', (event) => {
     }
 });
 */
-
-// create game entities
-var character = new Character();
-
-// event listeners
-document.getElementById('startBtn').addEventListener('click', startGame);
-document.getElementById('pauseBtn').addEventListener('click', pauseGame);
-
-document.addEventListener('keydown', function(event) {
-    if (!gameState.gameStarted || gameState.gameOver) return;
-
-    switch(event.key) {
-        case 'ArrowUp':
-        case ' ':
-            event.preventDefault();
-            character.jump();
-            break;
-        case 'ArrowDown':
-            event.preventDefault();
-            character.duck();
-            break;
-    }
-});
-
-// initial setup
-renderGame();
