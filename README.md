@@ -92,7 +92,7 @@ allison @ friday 3:22am
 ava @ tuesday 12:55
 - patched controls on gameOver
 
-momo @ wednesday 12:35am
+momo @ wednesday 12:53am
 - improved the look with some fresh fonts in css/html
 - cleaned up constructors for Character and Obstacle, got rid of unnecessary functions outside and made everything more readable and easier to fix (if needed)
 - grouped some lone variables inside the renderGame() function
