@@ -103,3 +103,8 @@ momo @ wednesday 12:53am
 - created two obstacles and used Math.random to make them come at you, hot and fast!
 - had to fix the startGame and pauseGame buttons, they weren’t letting me redraw the game each time i pressed them, causing a bunch of issues. should be good now
 - moved score and lives variables to the gameOver function instead of startGame and pauseGame for the same reason (button issue)
+
+ava @ wednesday 6:33am
+- debugged errors; moved lines 12-22 to 1-11 to allow lives: GAME_CONFIg.lives to properly grab GAME_CONFIG value
+- commeneted out render pixel font lines (172 - 174), added two variables just to get score and lives updating live with game (176 - 179). i'm not sure what the createPixelFont() function was supposed to be so i improvosed. pls feel free to change if needed
+- added gameState.gameOver = false to gameOver() function to allow restart without reloading page, and gameState.gameStarted = false to gameOver() function to bypass having to press pause game button and then start game button to initialize the game starting

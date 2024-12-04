@@ -1,3 +1,14 @@
+// Game Configuration
+var GAME_CONFIG = {
+    width: 900,
+    height: 300,
+    characterStartX: 50,
+    characterStartY: 250,
+    obstacleSpeed: 10,
+    scoreIncrement: 10,
+    lives: 3
+};
+
 // Variables for the game state
 var gameState = {
     score: 0,
@@ -8,17 +19,6 @@ var gameState = {
     gameOver: false,
     obstacles: [],
     timer: null
-};
-
-// Game Configuration
-var GAME_CONFIG = {
-    width: 900,
-    height: 300,
-    characterStartX: 50,
-    characterStartY: 250,
-    obstacleSpeed: 10,
-    scoreIncrement: 10,
-    lives: 3
 };
 
 // DOM elements Canvas and Context Setup
@@ -169,9 +169,14 @@ function renderGame() {
     });
 
     // render pixel font
-    var pixelFont = createPixelFont(ctx);
-    pixelFont.drawText('SCORE: ' + gameState.score, 10, 10);
-    pixelFont.drawText('LIVES: ' + gameState.lives, canvas.width - 150, 10);
+    // var pixelFont = createPixelFont(ctx);
+    // pixelFont.drawText('SCORE: ' + gameState.score, 10, 10);
+    // pixelFont.drawText('LIVES: ' + gameState.lives, canvas.width - 150, 10);
+
+    let scoreDisplay = document.getElementById('score');
+    let livesDisplay = document.getElementById('lives');
+    scoreDisplay.innerHTML = gameState.score;
+    livesDisplay.innerHTML = gameState.lives;
 }
 
 
@@ -303,6 +308,8 @@ function gameOver() {
     gameState.score = 0;
     gameState.lives = GAME_CONFIG.lives;
     gameState.obstacles = [];
+    gameState.gameOver = false;
+    gameState.gameStarted = false;
 }
 
 // Start Game Function
