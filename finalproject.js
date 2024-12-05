@@ -95,16 +95,40 @@ function Obstacle(type) {
     };
 }
 
+// variables for the background scroll
+var backgroundX = 0; // starting position for the background image
+var backgroundSpeed = 2; //speed at which the background image moves
 
+//load background image
+var backgroundImage = new Image();
+backgroundImage.src = 'images/autumnal-landscape.jpg';
+
+backgroundImage.onload = function() {
+    renderGame();
+}
 
 // main function game renderer
 function renderGame() {
     // clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    // Scale the background to fit the canvas width and height
+    var imageWidth = backgroundImage.width;
+    var imageHeight = backgroundImage.height;
+
     // background
-    ctx.fillStyle = '#87CEEB';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    //ctx.fillStyle = '#87CEEB';
+    //ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(backgroundImage, backgroundX, 0, canvas.width, canvas.height); //draws the first image
+    ctx.drawImage(backgroundImage, backgroundX + canvas.width, 0, canvas.width, canvas.height); //draws the next image right after the first
+    
+    //moves the background to the left
+    backgroundX -= backgroundSpeed;
+
+    // reset the background position if it has moved off-screen
+    if (backgroundX <= -canvas.width) {
+        backgroundX = 0;
+    }
 
     // draw character
     character.draw();
@@ -115,10 +139,19 @@ function renderGame() {
     });
 
     // renders score and lives directly inside of the game div, still experimental on how we want it
-    //ctx.font = '16px "Press Start 2P"';
-    //ctx.fillStyle = 'white';
-    //ctx.fillText('SCORE: ' + gameState.score, 10, 20);
-    //ctx.fillText('LIVES: ' + gameState.lives, canvas.width - 150, 20);
+    ctx.font = 'bold 16px "Press Start 2P"';
+    ctx.shadowOffsetX = 4;
+    ctx.shadowOffsetY = 4;
+    ctx.shadowBlur = 6;
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+    ctx.fillStyle = 'white';
+    ctx.fillText('SCORE: ' + gameState.score, 10, 20);
+    ctx.fillText('LIVES: ' + gameState.lives, canvas.width - 150, 20);
+    //resets shadow properties to avoid drawings
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
+    ctx.shadowBlur = 0;
+    ctx.shadowColor = 'transparent';
 
     let scoreDisplay = document.getElementById('score');
     let livesDisplay = document.getElementById('lives');
