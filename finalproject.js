@@ -3,7 +3,7 @@ var GAME_CONFIG = {
     width: 900,
     height: 300,
     characterStartX: 50,
-    characterStartY: 250,
+    characterStartY: 230,
     obstacleSpeed: 10,
     scoreIncrement: 10,
     lives: 3
@@ -26,14 +26,14 @@ var canvas = document.getElementById('gameCanvas');
 var ctx = canvas.getContext('2d');
 
 var frogCharacter = new Image();
-frogCharacter.src = 'images/frog.png';
+frogCharacter.src = 'images/frogWborder.png';
 
 // Character and Obstacle  constructor properties
 function Character() {
     this.x = GAME_CONFIG.characterStartX;
     this.y = GAME_CONFIG.characterStartY;
-    this.width = 50;
-    this.height = 50;
+    this.width = 80  ;
+    this.height = 67;
     this.jumpHeight = 0;
     this.maxJumpHeight = 150;
 
@@ -53,14 +53,14 @@ function Character() {
     this.duck = function() {
         if (!gameState.isJumping && !gameState.isDucking) {
             gameState.isDucking = true;
-            this.height = 25;
-            this.y += 25;
+            this.height = 35;
+            this.y += 35;
 
             setTimeout(function() {
-                this.height = 50;
-                this.y -= 25;
+                this.height = 70;
+                this.y -= 35;
                 gameState.isDucking = false;
-            }.bind(this), 500);
+            }.bind(this), 450);
         }
     };
 
@@ -89,11 +89,19 @@ birdObstacle.src = 'images/blue_bird.png';
 
 function Obstacle(type) {
     this.type = type;
-    this.width = type === 'ground' ? 75 : 50;
-    this.height = 50;
+    this.width = type === 'ground' ? 70 : 60;
+    this.height = type === 'ground' ? 55 : 60;
     this.x = GAME_CONFIG.width;
+
+    if(type === 'ground') {
+        this.y = 240;
+    } else if (type === 'flying') {
+        this.y = 190;
+    }
+    /*
     this.y = type === 'ground' ? 250 : 201;
     //this.color = type === 'ground' ? 'red' : 'purple';
+    */
     this.image = type === 'ground' ? rockObstacle : birdObstacle;
 
     this.draw = function() {
