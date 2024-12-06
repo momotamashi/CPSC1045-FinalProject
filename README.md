@@ -114,3 +114,8 @@ ava @ wednesday 7:53am
 - changed this.jumpheight from 10 to 12, not exactly sure what it does on a technical level but the jump animation feels smoother consecutively. feel free to change back if this needs to stay 10 (line 89)
 - changed math.random values from 0.95 to 0.98 and 0.05 to 0.35
     - 0.35 spawn favours ground over flying, can change back to 0.50 if desired, i was just mainly testing and found the spawn rate to be okay
+
+ava @ friday 3:21am
+- added png for background (line 116), frog (line 28-29, 43), bird (line 84-88, 97, 102), and rock (line 84-88, 97, 102)
+- changed spawn height of bird obstacle (line 95) to prevent player from jumping over bird (bird still has collision by 1 pixel), but still possible bc i didn't want to change the character jump height
+- changed width of rock obstacle just sot he png looke dok, but can change back (line 92)

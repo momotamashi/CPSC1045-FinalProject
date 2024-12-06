@@ -25,6 +25,9 @@ var gameState = {
 var canvas = document.getElementById('gameCanvas');
 var ctx = canvas.getContext('2d');
 
+var frogCharacter = new Image();
+frogCharacter.src = 'images/frog.png';
+
 // Character and Obstacle  constructor properties
 function Character() {
     this.x = GAME_CONFIG.characterStartX;
@@ -35,8 +38,9 @@ function Character() {
     this.maxJumpHeight = 150;
 
     this.draw = function() {
-        ctx.fillStyle = 'green';
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        //ctx.fillStyle = 'green';
+        //ctx.fillRect(this.x, this.y, this.width, this.height);
+        ctx.drawImage(frogCharacter, this.x, this.y, this.width, this.height);
     };
 
     this.jump = function() {
@@ -77,17 +81,25 @@ function Character() {
     };
 }
 
+var rockObstacle = new Image();
+rockObstacle.src = 'images/brown_rocks.png';
+
+var birdObstacle = new Image();
+birdObstacle.src = 'images/blue_bird.png';
+
 function Obstacle(type) {
     this.type = type;
-    this.width = 50;
+    this.width = type === 'ground' ? 75 : 50;
     this.height = 50;
     this.x = GAME_CONFIG.width;
-    this.y = type === 'ground' ? 250 : 215;
-    this.color = type === 'ground' ? 'red' : 'purple';
+    this.y = type === 'ground' ? 250 : 201;
+    //this.color = type === 'ground' ? 'red' : 'purple';
+    this.image = type === 'ground' ? rockObstacle : birdObstacle;
 
     this.draw = function() {
-        ctx.fillStyle = this.color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        //ctx.fillStyle = this.color;
+        //ctx.fillRect(this.x, this.y, this.width, this.height);
+        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
     };
 
     this.move = function() {
@@ -101,7 +113,7 @@ var backgroundSpeed = 2; //speed at which the background image moves
 
 //load background image
 var backgroundImage = new Image();
-backgroundImage.src = 'images/autumnal-landscape.jpg';
+backgroundImage.src = 'images/forest_river.png';
 
 backgroundImage.onload = function() {
     renderGame();
