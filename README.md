@@ -119,3 +119,8 @@ ava @ friday 3:21am
 - added png for background (line 116), frog (line 28-29, 43), bird (line 84-88, 97, 102), and rock (line 84-88, 97, 102)
 - changed spawn height of bird obstacle (line 95) to prevent player from jumping over bird (bird still has collision by 1 pixel), but still possible bc i didn't want to change the character jump height
 - changed width of rock obstacle just sot he png looke dok, but can change back (line 92)
+
+allison @ friday 2:58pm
+- fixed the sizing of characters and objects
+- added a border and change the color of the frog
+- removed the score & lives text below the title
