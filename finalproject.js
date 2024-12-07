@@ -32,10 +32,14 @@ frogCharacter.src = 'images/frogWborder.png';
 function Character() {
     this.x = GAME_CONFIG.characterStartX;
     this.y = GAME_CONFIG.characterStartY;
-    this.width = 80  ;
+    this.width = 80;
     this.height = 67;
     this.jumpHeight = 0;
     this.maxJumpHeight = 150;
+
+     // Added velocity for smoother movement
+    this.dx = 0;  // horizontal velocity
+    this.dy = 0;  // vertical velocity
 
     this.draw = function() {
         //ctx.fillStyle = 'green';
@@ -46,7 +50,10 @@ function Character() {
     this.jump = function() {
         if (!gameState.isJumping && !gameState.isDucking) {
             gameState.isJumping = true;
-            this.jumpHeight = 0;
+            //this.jumpHeight = 0;
+            
+            // Use velocity for more natural jump
+            this.dy = -10;  // Initial upward velocity
         }
     };
 
@@ -57,29 +64,40 @@ function Character() {
             this.y += 35;
 
             setTimeout(function() {
-                this.height = 70;
+                this.height = 67;
                 this.y -= 35;
                 gameState.isDucking = false;
-            }.bind(this), 450);
+            }.bind(this), 350);
         }
     };
 
     this.update = function() {
         if (gameState.isJumping) {
-            if (this.jumpHeight < this.maxJumpHeight) {
-                this.y -= 10;
-                this.jumpHeight += 12;
-            } else {
-                this.y += 10;
-                
-                if (this.y >= GAME_CONFIG.characterStartY) {
-                    this.y = GAME_CONFIG.characterStartY;
-                    gameState.isJumping = false;
-                }
+            this.dy += 0.5;  // Simulates gravity
+            this.y += this.dy;
+            this.jumpHeight += Math.abs(this.dy);
+
+            // Check if character has landed
+            if (this.y >= GAME_CONFIG.characterStartY) {
+                this.y = GAME_CONFIG.characterStartY;
+                this.dy = 0;
+                gameState.isJumping = false;
             }
+
+            //if (this.jumpHeight < this.maxJumpHeight) {
+            //    this.y -= 10;
+            //    this.jumpHeight += 12;
+            //} else {
+            //    this.y += 10;
+                
+            //    if (this.y >= GAME_CONFIG.characterStartY) {
+            //        this.y = GAME_CONFIG.characterStartY;
+            //        gameState.isJumping = false;
+            //    }
         }
-    };
-}
+    }
+};
+
 
 var rockObstacle = new Image();
 rockObstacle.src = 'images/brown_rocks.png';
@@ -182,6 +200,9 @@ function renderGame() {
 
 // game update logic, variable for function updateGame
 var obstacleTimer = 0;
+// increased delay between obstacle spawns
+var obstacleSpawnDelay = 120;
+var lastObstacleType = null;
 
 // function to game update main
 function updateGame() {
@@ -194,6 +215,19 @@ function updateGame() {
         return obstacle.x > -50;
     });
 
+
+    // improved obstacle spawning logic
+    if (obstacleTimer % obstacleSpawnDelay === 0) {
+        // Prevent spawning the same type of obstacle consecutively
+        var type;
+        do {
+            type = Math.random() > 0.5 ? 'ground' : 'flying';
+        } while (type === lastObstacleType);
+
+        lastObstacleType = type;
+        gameState.obstacles.push(new Obstacle(type));
+    }
+
     /*
     // spawn new obstacles
     if (Math.random() > 0.98) {
@@ -201,13 +235,14 @@ function updateGame() {
         gameState.obstacles.push(new Obstacle(type));
         gameState.score += 10;
     }
-    */
+    
 
     // spawn new obstacles based on timer
     if (obstacleTimer % 55 === 0) { // measured in every 55 frames
         var type = Math.random() > 0.5 ? 'ground' : 'flying';
         gameState.obstacles.push(new Obstacle(type));
     }
+    */
     obstacleTimer++;
 
     // Increment score
@@ -216,10 +251,34 @@ function updateGame() {
     // Increase obstacle speed based on score
     if (gameState.score % 100 === 0 && GAME_CONFIG.obstacleSpeed < 20) {
         GAME_CONFIG.obstacleSpeed++;
+        // increase spawn delay to maintain difficulty
+        obstacleSpawnDelay = Math.max(60, obstacleSpawnDelay - 10);
     }
 
+    // collision detection with more forgiving hitbox
+    gameState.obstacles.forEach(function(obstacle, index) {
+        // reduced hitbox size to make collisions feel more fair
+        var collisionMargin = 10; // Pixels to reduce from hitbox
+        var collision = 
+            obstacle.x + collisionMargin < character.x + character.width &&
+            obstacle.x + obstacle.width - collisionMargin > character.x &&
+            obstacle.y + collisionMargin < character.y + character.height &&
+            obstacle.y + obstacle.height - collisionMargin > character.y;
 
-    // collision detection
+        if (collision) {
+            gameState.lives--;
+            gameState.obstacles.splice(index, 1);
+
+            if (gameState.lives <= 0) {
+                gameOver();
+            }
+        }
+    });
+
+    renderGame();
+}
+
+    /*
     gameState.obstacles.forEach(function(obstacle, index) {
         var collision = 
             obstacle.x < character.x + character.width &&
@@ -239,6 +298,7 @@ function updateGame() {
 
     renderGame();
 }
+*/
 
 // Game Over function
 function gameOver() {
