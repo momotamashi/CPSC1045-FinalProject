@@ -25,8 +25,25 @@ var gameState = {
 var canvas = document.getElementById('gameCanvas');
 var ctx = canvas.getContext('2d');
 
+
+// Load Images
 var frogCharacter = new Image();
 frogCharacter.src = 'images/frogWborder.png';
+
+var rockObstacle = new Image();
+rockObstacle.src = 'images/brown_rocks.png';
+
+var birdObstacle = new Image();
+birdObstacle.src = 'images/blue_bird.png';
+
+var backgroundImage = new Image();
+backgroundImage.src = 'images/forest_river.png';
+
+
+// Background Variables
+var backgroundX = 0; // starting position for the background image
+var backgroundSpeed = 2; //speed at which the background image moves
+
 
 // Character and Obstacle  constructor properties
 function Character() {
@@ -99,11 +116,6 @@ function Character() {
 };
 
 
-var rockObstacle = new Image();
-rockObstacle.src = 'images/brown_rocks.png';
-
-var birdObstacle = new Image();
-birdObstacle.src = 'images/blue_bird.png';
 
 function Obstacle(type) {
     this.type = type;
@@ -133,13 +145,6 @@ function Obstacle(type) {
     };
 }
 
-// variables for the background scroll
-var backgroundX = 0; // starting position for the background image
-var backgroundSpeed = 2; //speed at which the background image moves
-
-//load background image
-var backgroundImage = new Image();
-backgroundImage.src = 'images/forest_river.png';
 
 backgroundImage.onload = function() {
     renderGame();
