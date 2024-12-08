@@ -59,8 +59,6 @@ function Character() {
     this.dy = 0;  // vertical velocity
 
     this.draw = function() {
-        //ctx.fillStyle = 'green';
-        //ctx.fillRect(this.x, this.y, this.width, this.height);
         ctx.drawImage(frogCharacter, this.x, this.y, this.width, this.height);
     };
 
