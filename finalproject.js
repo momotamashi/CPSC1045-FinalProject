@@ -260,18 +260,32 @@ function updateGame() {
 
     // collision detection with more forgiving hitbox
     gameState.obstacles.forEach(function(obstacle, index) {
+
         // reduced hitbox size to make collisions feel more fair
         var collisionMargin = 10; // Pixels to reduce from hitbox
+
+        // precompute adjusted obstacle boundaries
+        var obstacleLeft = obstacle.x + collisionMargin;
+        var obstacleRight = obstacle.x + obstacle.width - collisionMargin;
+        var obstacleTop = obstacle.y + collisionMargin;
+        var obstacleBottom = obstacle.y + obstacle.height - collisionMargin;
+
+        // precompute adjusted character boundaries
+        var characterRight = character.x + character.width;
+        var characterBottom = character.y + character.height;
+
+        // check for collision
         var collision = 
-            character.x + character.width > obstacle.x + collisionMargin &&
-            character.x < obstacle.x + obstacle.width - collisionMargin &&
-            character.y + character.height > obstacle.y + collisionMargin &&
-            character.y < obstacle.y + obstacle.height - collisionMargin;
+            character.x < obstacleRight &&
+            characterRight > obstacleLeft &&
+            character.y < obstacleBottom &&
+            characterBottom > obstacleTop;
 
         if (collision) {
-            gameState.lives--;
-            gameState.obstacles.splice(index, 1);
+            gameState.lives--; // decrease lives
+            gameState.obstacles.splice(index, 1); // removes the collided obstacle
 
+            // handle game over condition
             if (gameState.lives <= 0) {
                 gameOver();
             }
@@ -281,27 +295,7 @@ function updateGame() {
     renderGame();
 }
 
-    /*
-    gameState.obstacles.forEach(function(obstacle, index) {
-        var collision = 
-            obstacle.x < character.x + character.width &&
-            obstacle.x + obstacle.width > character.x &&
-            obstacle.y < character.y + character.height &&
-            obstacle.y + obstacle.height > character.y;
 
-        if (collision) {
-            gameState.lives--;
-            gameState.obstacles.splice(index, 1);
-
-            if (gameState.lives <= 0) {
-                gameOver();
-            }
-        }
-    });
-
-    renderGame();
-}
-*/
 
 // Game Over function
 function gameOver() {
