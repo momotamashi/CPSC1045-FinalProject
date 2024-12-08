@@ -263,10 +263,10 @@ function updateGame() {
         // reduced hitbox size to make collisions feel more fair
         var collisionMargin = 10; // Pixels to reduce from hitbox
         var collision = 
-            obstacle.x + collisionMargin < character.x + character.width &&
-            obstacle.x + obstacle.width - collisionMargin > character.x &&
-            obstacle.y + collisionMargin < character.y + character.height &&
-            obstacle.y + obstacle.height - collisionMargin > character.y;
+            character.x + character.width > obstacle.x + collisionMargin &&
+            character.x < obstacle.x + obstacle.width - collisionMargin &&
+            character.y + character.height > obstacle.y + collisionMargin &&
+            character.y < obstacle.y + obstacle.height - collisionMargin;
 
         if (collision) {
             gameState.lives--;
